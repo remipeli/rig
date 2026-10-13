@@ -58,8 +58,12 @@ describe('digest page: GET /digest/:night', () => {
 
   it('marks a 3+ retry row and a fail row with warn', async () => {
     const html = await (await app().request('/digest/2026-10-28')).text();
-    const syncRow = html.slice(html.indexOf('lane/sync'), html.indexOf('</tr>', html.indexOf('lane/sync')));
-    const failRow = html.slice(html.indexOf('rig/rotate-logs'), html.indexOf('</tr>', html.indexOf('rig/rotate-logs')));
+    const rowOf = (job: string) => {
+      const start = html.lastIndexOf('<tr', html.indexOf(`>${job}<`));
+      return html.slice(start, html.indexOf('</tr>', start));
+    };
+    const syncRow = rowOf('lane/sync');
+    const failRow = rowOf('rig/rotate-logs');
     expect(syncRow).toContain('warn');
     expect(syncRow).toContain('3+ retries');
     expect(failRow).toContain('warn');
