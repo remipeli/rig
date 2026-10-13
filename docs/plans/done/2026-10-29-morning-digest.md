@@ -1,8 +1,9 @@
 ---
 plan: morning-digest
-status: ready
+status: done
 owner: rook
 opened: 2026-10-29
+closed: 2026-10-13
 ---
 
 # Morning digest
@@ -75,3 +76,20 @@ The preview shows lane data on a public link (ADR 0003). Delete the object; the 
 resolving. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link returns nothing.
+
+## Issues
+
+| # | Issue | Blocked by | Worker | Closed |
+|---|-------|-----------|--------|--------|
+| 1 | Run log reader | — | claude-code · opus-5.5 · medium | 2026-10-13 |
+| 2 | Digest page | #1 (types only) | claude-code · haiku-5.5 · low | 2026-10-13 |
+| 3 | Digest JSON | #1 (types only) | claude-code · haiku-5.5 · low | 2026-10-13 |
+| 4 | Board link | #1 (types only) | claude-code · haiku-5.5 · low | 2026-10-13 |
+| 5 | Route tests | #1 (types only) | claude-code · haiku-5.5 · low | 2026-10-13 |
+| 6 | Preview for review | #2, #3, #4, #5 | claude-code · opus-5.5 · xhigh | 2026-10-13 |
+| 7 | Clean up | #6, Rook's review | claude-code · opus-5.5 · xhigh | 2026-10-13 |
+
+#1 went out in two commits: `src/digest/types.ts` first, so #2–#5 ran on four workers at once.
+Merging #2 and #3 left a duplicate import in `src/app.tsx`; the coordinator removed it (104f870).
+#6 was first closed when the link was sent, before Rook had looked. It was reopened and closed
+again after the review. The preview link stopped resolving the same day.
